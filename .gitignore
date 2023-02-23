@@ -1,1 +1,4 @@
 /.vscode
+.env
+ImageMagick/
+ImageMagick7/

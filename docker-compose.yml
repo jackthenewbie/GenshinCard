@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  genshin:
+    container_name: genshin
+    image: genshincard:v1
+    env_file:
+      - .env

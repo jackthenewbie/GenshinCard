@@ -1,0 +1,200 @@
+{
+        "filename":"ganyu",
+        "folder":"characters",
+        "level":"90-",
+        "match":"Ganyu",
+        "matchtype":"names",
+        "options":{
+           "dumpResult":true,
+           "matchAliases":false,
+           "matchAltNames":true,
+           "matchCategories":false,
+           "matchNames":true,
+           "queryLanguages":[
+              "English"
+           ],
+           "resultLanguage":"English",
+           "verboseCategories":false
+        },
+        "query":"ganyu",
+        "result":{
+           "affiliation":"Yuehai Pavilion",
+           "association":"LIYUE",
+           "birthday":"December 2",
+           "birthdaymmdd":"12/2",
+           "body":"GIRL",
+           "constellation":"Sinae Unicornis",
+           "costs":{
+              "ascend1":[
+                 {
+                    "count":20000,
+                    "name":"Mora"
+                 },
+                 {
+                    "count":1,
+                    "name":"Shivada Jade Sliver"
+                 },
+                 {
+                    "count":3,
+                    "name":"Qingxin"
+                 },
+                 {
+                    "count":3,
+                    "name":"Whopperflower Nectar"
+                 }
+              ],
+              "ascend2":[
+                 {
+                    "count":40000,
+                    "name":"Mora"
+                 },
+                 {
+                    "count":3,
+                    "name":"Shivada Jade Fragment"
+                 },
+                 {
+                    "count":2,
+                    "name":"Hoarfrost Core"
+                 },
+                 {
+                    "count":10,
+                    "name":"Qingxin"
+                 },
+                 {
+                    "count":15,
+                    "name":"Whopperflower Nectar"
+                 }
+              ],
+              "ascend3":[
+                 {
+                    "count":60000,
+                    "name":"Mora"
+                 },
+                 {
+                    "count":6,
+                    "name":"Shivada Jade Fragment"
+                 },
+                 {
+                    "count":4,
+                    "name":"Hoarfrost Core"
+                 },
+                 {
+                    "count":20,
+                    "name":"Qingxin"
+                 },
+                 {
+                    "count":12,
+                    "name":"Shimmering Nectar"
+                 }
+              ],
+              "ascend4":[
+                 {
+                    "count":80000,
+                    "name":"Mora"
+                 },
+                 {
+                    "count":3,
+                    "name":"Shivada Jade Chunk"
+                 },
+                 {
+                    "count":8,
+                    "name":"Hoarfrost Core"
+                 },
+                 {
+                    "count":30,
+                    "name":"Qingxin"
+                 },
+                 {
+                    "count":18,
+                    "name":"Shimmering Nectar"
+                 }
+              ],
+              "ascend5":[
+                 {
+                    "count":100000,
+                    "name":"Mora"
+                 },
+                 {
+                    "count":6,
+                    "name":"Shivada Jade Chunk"
+                 },
+                 {
+                    "count":12,
+                    "name":"Hoarfrost Core"
+                 },
+                 {
+                    "count":45,
+                    "name":"Qingxin"
+                 },
+                 {
+                    "count":12,
+                    "name":"Energy Nectar"
+                 }
+              ],
+              "ascend6":[
+                 {
+                    "count":120000,
+                    "name":"Mora"
+                 },
+                 {
+                    "count":6,
+                    "name":"Shivada Jade Gemstone"
+                 },
+                 {
+                    "count":20,
+                    "name":"Hoarfrost Core"
+                 },
+                 {
+                    "count":60,
+                    "name":"Qingxin"
+                 },
+                 {
+                    "count":24,
+                    "name":"Energy Nectar"
+                 }
+              ]
+           },
+           "cv":{
+              "chinese":"\u6797\u7c0c",
+              "english":"Jennifer Losi",
+              "japanese":"\u4e0a\u7530\u9e97\u5948",
+              "korean":"Kim Seon-hye"
+           },
+           "description":"The secretary at Yuehai Pavilion. The blood of the qilin, an illuminated beast, flows within her veins.",
+           "element":"Cryo",
+           "fullname":"Ganyu",
+           "gender":"Female",
+           "images":{
+              "card":"https://static.wikia.nocookie.net/gensin-impact/images/8/8d/Character_Ganyu_Card.png",
+              "cover1":"https://webstatic.hoyoverse.com/upload/contentweb/2022/07/22/1ae0d0aaad9ee9b55652ea7ec67f0465_3602224572622981451.png",
+              "cover2":"https://webstatic.hoyoverse.com/upload/uploadstatic/contentweb/20210105/2021010519280045054.png",
+              "hoyolab-avatar":"https://img-os-static.hoyolab.com/communityWeb/upload/4af4adf192a35db2dd76d9718acc7bc8.png",
+              "icon":"https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ganyu.png",
+              "namegachaslice":"UI_Gacha_AvatarIcon_Ganyu",
+              "namegachasplash":"UI_Gacha_AvatarImg_Ganyu",
+              "nameicon":"UI_AvatarIcon_Ganyu",
+              "nameiconcard":"UI_AvatarIcon_Ganyu_Card",
+              "namesideicon":"UI_AvatarIcon_Side_Ganyu",
+              "portrait":"https://static.wikia.nocookie.net/gensin-impact/images/a/a0/Character_Ganyu_Portrait.png",
+              "sideicon":"https://upload-os-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Ganyu.png"
+           },
+           "name":"Ganyu",
+           "rarity":"5",
+           "region":"Liyue",
+           "substat":"CRIT DMG",
+           "title":"Plenilune Gaze",
+           "url":{
+              "fandom":"https://genshin-impact.fandom.com/wiki/Ganyu"
+           },
+           "version":"1.2",
+           "weapontype":"Bow"
+        },
+        "stats":{
+           "ascension":6,
+           "attack":334.84974830517604,
+           "defense":630.21460059772653,
+           "hp":9796.7290092739277,
+           "level":90,
+           "specialized":0.88400000333786011
+        }
+     }

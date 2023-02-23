@@ -1,0 +1,2 @@
+input="dependencies"
+cat $input
