@@ -5,8 +5,20 @@ sudo apt-get install -y python3.10 python3-pip git-all build-essential pkg-confi
 git clone https://github.com/ImageMagick/ImageMagick.git "${SCRIPTPATH}/ImageMagick"
 cd "${SCRIPTPATH}/ImageMagick" && ./configure CXX=g++
 make
-make install
+sudo make install
 git clone https://github.com/libcpr/cpr.git "${SCRIPTPATH}/cpr"
 cd "${SCRIPTPATH}/cpr" && mkdir build && cd build
 cmake "${SCRIPTPATH}/cpr" -DCPR_BUILD_TESTS=OFF
 sudo make install
+
+#--------------------------------export env variables--------------------------------
+file="${HOME}/.bashrc"
+
+while IFS= read -r line
+do
+    [ -z "$line" ] && continue
+    grep -xq -- "export ${line}" "$file" ||  echo "\nexport ${line}" | sudo tee -a "$file"
+#end while loop
+done < "${SCRIPTPATH}/.env"
+
+

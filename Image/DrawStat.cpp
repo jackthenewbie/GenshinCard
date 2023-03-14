@@ -47,7 +47,7 @@ void DrawStat::calculateAll(){
                 std::cout<<"Can't with "<<stat.first<<std::endl;
             }
         }
-        this->stats.at(stat.first) += (temp+this->character->get_stat(stat.first));
+        this->stats.at(stat.first) += (this->character->get_stat(stat.first));
         std::cout<<stat.first<<" has value: "<<this->stats.at(stat.first)<<std::endl;
     }
     this->calculate = true;
@@ -117,16 +117,16 @@ void DrawStat::drawBonus(int xstat, int xval, int y, int spacey, std::string mod
         y+=spacey;
     }
 }
-void DrawStat::iconToDrawlist(std::string icon, int x, int y){
-    Image img(icon);
-    img.resize(Geometry(FONT_SIZE, FONT_SIZE));
-    this->drawList.push_back(x - img.size().width() - int(round(FONT_SIZE/3), //x cordinate
-                        y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
-                        0, 0, img, OverCompositeOp));
-}
+//void DrawStat::iconToDrawlist(std::string icon, int x, int y){
+//    Image img(icon);
+//    img.resize(Geometry(FONT_SIZE, FONT_SIZE));
+//    this->drawList.push_back(x - img.size().width() - int(round(FONT_SIZE/3)), //x cordinate
+//                        y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
+//                        img, OverCompositeOp));
+//}
 void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int spacey, int icon_size){
     if(!calculate){calculateAll();}
-    Image wp("/home/pifordecoyer/code/cpp/GenshinCard/Image/UI_EquipIcon_Bow_Amos_Awaken#63040.png");
+    Image wp("/home/ser3_decoyer/repo/GenshinCard/Image/UI_EquipIcon_Bow_Amos_Awaken#63040.png");
     wp.resize(Geometry(icon_size, icon_size));
     this->drawList.push_back(DrawableFont(FONT));
     this->drawList.push_back(DrawableCompositeImage(ximg, yimg, 0, 0, wp, OverCompositeOp));

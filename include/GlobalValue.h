@@ -7,7 +7,7 @@
 #include <utility> 
 #include "str.h"
 #define FONT_SIZE 26
-#define FONT "Times-New-Roman"
+#define FONT "Times-Roman"
 const std::map<std::string, std::map<int, double>> artifact5_main_stats ={
   //7.0	9.0	11.0	12.9	14.9	16.9	18.9	20.9	22.8	24.8	26.8	28.8	30.8	32.8	34.7	36.7	38.7	40.7	42.7	44.6	46.6
   {"hp_", {

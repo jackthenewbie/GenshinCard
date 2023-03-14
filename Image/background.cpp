@@ -73,8 +73,8 @@ void drawWeapon(Image *image, int size){
     //return 1; 
   }
 }
-int main(int argc, char **argv) 
-//int mainx(int argc, char **argv) 
+//int main(int argc, char **argv) 
+int mainx(int argc, char **argv) 
 { 
   InitializeMagick(*argv);
   DrawableText demo(0,0,"1999 HP");

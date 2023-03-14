@@ -217,10 +217,10 @@ void Interpreter::drawBasic(){
         d.drawBasic(820,212,58);
         d.drawBonus(549, 820, 562+58, 58, "character", std::vector<std::string>{"cryo_dmg_"});
         d.drawWeapon(470, 20, 620, 620+200, 45, 30, 100);
-        InitializeMagick("/home/pifordecoyer/code/cpp/GenshinCard/Image/TOP.png");
+        InitializeMagick("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");
         Image image;
-        image.read("/home/pifordecoyer/code/cpp/GenshinCard/Image/TOP.png");
+        image.read("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");
         image.draw(d.get_drawList());
-        image.write("/home/pifordecoyer/code/cpp/GenshinCard/Image/Ganyu.png");
+        image.write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
     }
 }
