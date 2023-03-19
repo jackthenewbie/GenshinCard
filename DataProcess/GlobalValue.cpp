@@ -5,7 +5,8 @@
 using namespace str_util;
 std::string verbose(std::string stat, std::vector<std::string> searchv, std::vector<std::string> returnv){
     for(unsigned int i = 0; i < searchv.size(); i++){
-        if(is_string_equal(stat, searchv.at(i), true)) return returnv.at(i);
+        if(is_string_contain(stat, searchv.at(i))) 
+            return returnv.at(i);
     }
     return "Undefied";
 }

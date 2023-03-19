@@ -14,6 +14,7 @@ class Stat{
         ,{"def_", 0}
         ,{"def", 0}
         ,{"eleMas", 0}
+        ,{"eleMas_", 0}
         ,{"heal_", 0}
         ,{"enerRech_", 0}
         ,{"critRate_", 0}

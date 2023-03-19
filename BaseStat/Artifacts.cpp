@@ -82,7 +82,8 @@ void Artifacts::cal_bonus(){
     for(const auto& set_: bonus){
         if(set_.second >= 2){
             std::string desc = this->descp2pc(set_.first);
-            if(str_util::is_string_equal(get_bonus(desc), "Undefined")) continue;
+            std::string bonus_stat = get_bonus(desc);
+            if(str_util::is_string_equal(bonus_stat, "Undefined")) continue;
             this->bonus2pc.insert(std::pair<std::string, double>(get_bonus(desc), specialStat(get_bonus(desc),extractInt(desc)))); //desc could be wrong
         }
     }

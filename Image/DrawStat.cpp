@@ -21,8 +21,9 @@ void DrawStat::calculateAll(){
        // double temp = character->get_stat(stat.first);
        double temp = 0;
         for(Artifact& artifact : (character->get_artifacts()).get_artifacts()){
-            auto it = (artifact.get_sub_stats()).find(stat.first);
-            if (it != (artifact.get_sub_stats()).end()){
+            std::set<std::string> subs = artifact.get_sub_stats();
+            auto it = subs.find(stat.first);
+            if (it != subs.end()){
                 //std::cout<<"Found stat"<<stat<<":"<<artifact.get_sub_stat(stat)<<" in "<<artifact.get_set()<<" type "<<artifact.get_type()<<std::endl;
                 temp += artifact.get_sub_stat(stat.first);
             }
@@ -36,15 +37,22 @@ void DrawStat::calculateAll(){
     }
     this->character->set_stat("atk", (character->get_weapon()).get_main_stat(true) + this->character->get_stat("atk"));
     this->stats.at((character->get_weapon()).get_sub_stat()) += (character->get_weapon()).get_sub_stat(true);
+    //set bonus2pc to stats
+    auto bonus = character->get_artifacts().get_bonus2pc();
+    for(auto& stat : bonus){
+        this->stats.at(stat.first) += stat.second;
+    }
+    for(auto& stat : this->stats) std::cout<<"Character has "<<stat.first<<" is "<<character->get_stat(stat.first)<<std::endl;
+
     for(auto& stat : this->stats){
-        double temp = 0;
         if(!stat.first.ends_with("_")){
+            double totalstat =this->stats.at(stat.first);
+            double totalstat_ = this->stats.at(stat.first + "_");   
             try{
-                temp=this->stats.at(stat.first);
-                //             hp                             char hp                               char hp%               artifact hp%                           artifact hp       
-                this->stats.at(stat.first) = this->character->get_stat(stat.first)*(this->character->get_stat(stat.first + "_") + this->stats.at(stat.first + "_"));
-            }catch(...){
-                std::cout<<"Can't with "<<stat.first<<std::endl;
+                this->stats.at(stat.first) = 
+                this->character->get_stat(stat.first)*((this->character->get_stat(stat.first + "_") + totalstat_)) + totalstat;
+            }catch(Exception& e){
+                std::cout<<"Can't with "<<stat.first<<" error: "<< e.what()<<std::endl;
             }
         }
         this->stats.at(stat.first) += (this->character->get_stat(stat.first));
