@@ -212,11 +212,47 @@ void Interpreter::igniteArtifacts(){
     }
 }
 void Interpreter::drawBasic(){
+    std::cout<<"Read input from input.json: "<<std::endl;
+    ifstream in("input.json");
+    Value coordinate;
+    Reader temp;
+    temp.parse(in, coordinate);
     for(auto it = this->characters.begin(); it != this->characters.end(); it++){
         DrawStat d(&(it->second));
-        d.drawBasic(820,212,58);
+        d.drawBasic(coordinate["drawBasic"]["x"].asInt(),coordinate["drawBasic"]["y"].asInt(),coordinate["drawBasic"]["space"].asInt());
         d.drawBonus(549, 820, 562+58, 58, "character", std::vector<std::string>{"cryo_dmg_"});
-        d.drawWeapon(470, 20, 620, 620+200, 45, 30, 100);
+            //470, 20, 620, 620+200, 45, 30, 100
+        d.drawWeapon(
+            coordinate["drawWeapon"]["ximg"].asInt(),
+            coordinate["drawWeapon"]["yimg"].asInt(),
+            coordinate["drawWeapon"]["xstat"].asInt(),
+            coordinate["drawWeapon"]["xval"].asInt(),
+            coordinate["drawWeapon"]["y"].asInt(),
+            coordinate["drawWeapon"]["spacey"].asInt(),
+            coordinate["drawWeapon"]["icon_size"].asInt()
+        );
+        d.drawArtifact(
+            coordinate["drawArtifact"]["ximg"].asInt(),
+            coordinate["drawArtifact"]["yimg"].asInt(),
+            coordinate["drawArtifact"]["FONT_SIZE_name"].asInt(),
+            coordinate["drawArtifact"]["xname"].asInt(),
+            coordinate["drawArtifact"]["yname"].asInt(),
+            coordinate["drawArtifact"]["FONT_SIZE_mainstat"].asInt(),
+            coordinate["drawArtifact"]["xmainstat"].asInt(),
+            coordinate["drawArtifact"]["ymainstat"].asInt(),
+            coordinate["drawArtifact"]["xmainval"].asInt(),
+            coordinate["drawArtifact"]["ymainval"].asInt(),
+            coordinate["drawArtifact"]["mainstat_size"].asInt(),
+            coordinate["drawArtifact"]["FONT_SIZE_substat"].asInt(),
+            coordinate["drawArtifact"]["xsubstat"].asInt(),
+            coordinate["drawArtifact"]["ysubstat"].asInt(),
+            coordinate["drawArtifact"]["xsubval"].asInt(),
+            coordinate["drawArtifact"]["ysubval"].asInt(),
+            coordinate["drawArtifact"]["substat_size"].asInt(),
+            coordinate["drawArtifact"]["spacesubx"].asInt(),
+            coordinate["drawArtifact"]["spacesuby"].asInt(),
+            coordinate["drawArtifact"]["icon_size"].asInt()
+        );
         InitializeMagick("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");
         Image image;
         image.read("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");

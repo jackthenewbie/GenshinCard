@@ -1,0 +1,38 @@
+{
+    "drawBasic":{
+        "x": 820,
+        "y": 212,
+        "space": 58
+    },
+    "drawArtifact":{
+        "ximg": 915,
+        "yimg": 44,
+        "FONT_SIZE_name": 20,
+        "xname": 930,
+        "yname": 36,
+        "FONT_SIZE_mainstat": 20,
+        "xmainstat": 1015,
+        "ymainstat": 52,
+        "xmainval": 1020,
+        "ymainval": 125,
+        "mainstat_size": 57,
+        "FONT_SIZE_substat": 20,
+        "xsubstat": 1111,
+        "ysubstat": 55,
+        "xsubval": 1150,
+        "ysubval": 55,
+        "substat_size": 30,
+        "spacesubx": 30,
+        "spacesuby": 30,
+        "icon_size": 100
+    },
+    "drawWeapon":{
+        "ximg": 470,
+        "yimg": 20,
+        "xstat": 620,
+        "xval": 820,
+        "y": 45,
+        "spacey": 30,
+        "icon_size": 100
+    }   
+}

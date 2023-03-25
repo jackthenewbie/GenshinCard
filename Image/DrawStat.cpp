@@ -125,13 +125,13 @@ void DrawStat::drawBonus(int xstat, int xval, int y, int spacey, std::string mod
         y+=spacey;
     }
 }
-//void DrawStat::iconToDrawlist(std::string icon, int x, int y){
-//    Image img(icon);
-//    img.resize(Geometry(FONT_SIZE, FONT_SIZE));
-//    this->drawList.push_back(x - img.size().width() - int(round(FONT_SIZE/3)), //x cordinate
-//                        y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
-//                        img, OverCompositeOp));
-//}
+void DrawStat::iconToDrawlist(std::string icon, int x, int y){
+    Image img(icon);
+    img.resize(Geometry(FONT_SIZE, FONT_SIZE));
+    this->drawList.push_back(DrawableCompositeImage(x - img.size().width() - int(round(FONT_SIZE/3)), //x cordinate
+                             y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
+                             0, 0, img, OverCompositeOp));
+}
 void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int spacey, int icon_size){
     if(!calculate){calculateAll();}
     Image wp("/home/ser3_decoyer/repo/GenshinCard/Image/UI_EquipIcon_Bow_Amos_Awaken#63040.png");
@@ -180,4 +180,84 @@ void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int sp
     std::string cons = "R"+std::to_string(this->character->get_weapon().get_refinement());
     std::string lv = "Lv. " +std::to_string(this->character->get_weapon().get_level()) + "/90";
     this->drawList.push_back(DrawableText(xstat, y, cons + "  " + lv));
+}
+void DrawStat::drawArtifact(int ximg, 
+                           int yimg,
+                           int FONT_SIZE_name,
+                           int xname,
+                           int yname,
+                           int FONT_SIZE_mainstat, 
+                           int xmainstat,
+                           int ymainstat,
+                           int xmainval,
+                           int ymainval,
+                           int mainstat_size,
+                           int FONT_SIZE_substat, 
+                           int xsubstat,
+                           int ysubstat,
+                           int xsubval,
+                           int ysubval,
+                           int substat_size, 
+                           int spacesubx,
+                           int spacesuby, 
+                           int icon_size)
+{
+    Artifacts artifacts = this->character->get_artifacts();
+    stat_link("atk");
+    if(!calculate){calculateAll();}
+    display("atk");
+    for(Artifact a : artifacts.get_artifacts()){
+        Image artifact("/home/ser3_decoyer/repo/GenshinCard/Image/artifact.png");
+        artifact.resize(Geometry(icon_size, icon_size));
+        artifact.alpha(true);
+        artifact.evaluate (AlphaChannel, MultiplyEvaluateOperator, 0.7);
+        this->drawList.push_back(DrawableCompositeImage(ximg, yimg, 0, 0, artifact, OverCompositeOp));
+        yimg+=140;
+        //draw artifact name
+        this->drawList.push_back(DrawableFont(FONT));
+        this->drawList.push_back(DrawablePointSize(FONT_SIZE_name));
+        this->drawList.push_back(DrawableText(xname, yname, a.get_set()));
+        yname+=140;
+        Image iconmain("/home/ser3_decoyer/repo/GenshinCard/Image/erdemo.png");
+        iconmain.resize(Geometry(mainstat_size, mainstat_size));
+        this->drawList.push_back(DrawableCompositeImage(xmainstat, ymainstat, 0, 0, iconmain, OverCompositeOp));
+        ymainstat+=140;
+        this->drawList.push_back(DrawablePointSize(FONT_SIZE_mainstat));
+        double mainval = a.get_main_stat(true);
+        std::string val;
+        if(a.get_main_stat().ends_with("_"))
+        val = str_util::rm0tail(std::to_string(round(mainval*1000)/10)) + "%";
+        else val = str_util::rm0tail(std::to_string(round(mainval)));
+        
+        //this->drawList.push_back(DrawableGravity(CenterGravity));
+        this->drawList.push_back(DrawableText(xmainval, ymainval, val));
+        ymainval+=140;
+        /*std::vector<std::pair<int, int>> *substat_pos = new std::vector<std::pair<int, int>>();
+        for(int row=0; row<2; row++){
+            for(int col=0; col<2; col++){
+                substat_pos->push_back(std::make_pair(col,row));
+            }
+        }
+        //------------------SUBSTATS------------------
+        auto atribute = a.get_sub_stats().begin();
+        auto pos = substat_pos->begin();
+        for(; atribute != a.get_sub_stats().end(); atribute++, pos++){
+            std::string temp = *atribute;
+            int at_x = pos->first;
+            int at_y = pos->second;
+            Image icon("/home/ser3_decoyer/repo/GenshinCard/Image/erdemo.png");
+            icon.resize(Geometry(substat_size, substat_size));
+            this->drawList.push_back(DrawableCompositeImage(xsubstat+at_x*spacesubx, ysubstat+at_y*spacesubx, 0, 0, icon, OverCompositeOp));
+            this->drawList.push_back(DrawablePointSize(FONT_SIZE_substat));
+            double subval = a.get_sub_stat(temp);
+            if(temp.ends_with("_"))
+            val = str_util::rm0tail(std::to_string(round(subval*1000)/10)) + "%";
+            else val = str_util::rm0tail(std::to_string(round(subval)));
+
+            this->drawList.push_back(DrawableText(xsubval+at_x*spacesubx, ysubval+at_y*spacesuby, val));
+            
+            
+        }
+        delete substat_pos;*/
+    }
 }
