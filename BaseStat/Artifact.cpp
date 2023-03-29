@@ -26,8 +26,10 @@ void Artifact::set_main_stat(std::string stat, double value){
 void Artifact::set_sub_stat(std::map<std::string, double> stats){
     for(auto stat: stats){
         try{
+            if(stat.second == 0) continue;
             this->stats.at(stat.first) = stat.second;
-            this->sub_stats.insert(stat.first);}
+            this->sub_stats.insert(stat.first);
+            }
         catch(const std::out_of_range& e){
             std::cout<<"Insert stat unsuccessfully (Please see GOOD -"
             <<"Genshin Open Object Description keys). Abort"<<std::endl;
@@ -37,7 +39,7 @@ void Artifact::set_sub_stat(std::map<std::string, double> stats){
 }
 std::string Artifact::get_main_stat(){return this->main_stat;}
 double Artifact::get_main_stat(bool stat){return this->stats.at(this->main_stat);}
-std::set<std::string> Artifact::get_sub_stats(){return this->sub_stats;}
+std::set<std::string> *Artifact::get_sub_stats(){return &(this->sub_stats);}
 double Artifact::get_sub_stat(std::string stat){return this->stats.at(stat);}
 std::string Artifact::get_type(){return this->type;}
 std::string Artifact::get_link(){return root + "artifact/" + this->set + "/" + this->type + ".png";}

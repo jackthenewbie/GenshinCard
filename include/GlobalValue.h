@@ -441,8 +441,8 @@ const std::vector<std::string> verbose_stat_display = {
   "ATK",
   "DEF",
 };
-std::string get_bonus(std::string);
-std::string display(std::string);
+std::string bonus_from(std::string);
+std::string display_stat(std::string);
 std::string verbose(std::string, std::vector<std::string>, std::vector<std::string>);
 const std::string root = "https://genshin-impact.fandom.com/wiki/";
 #endif

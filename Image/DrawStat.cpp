@@ -21,9 +21,9 @@ void DrawStat::calculateAll(){
        // double temp = character->get_stat(stat.first);
        double temp = 0;
         for(Artifact& artifact : (character->get_artifacts()).get_artifacts()){
-            std::set<std::string> subs = artifact.get_sub_stats();
-            auto it = subs.find(stat.first);
-            if (it != subs.end()){
+            std::set<std::string> *subs = artifact.get_sub_stats();
+            auto it = subs->find(stat.first);
+            if (it != subs->end()){
                 //std::cout<<"Found stat"<<stat<<":"<<artifact.get_sub_stat(stat)<<" in "<<artifact.get_set()<<" type "<<artifact.get_type()<<std::endl;
                 temp += artifact.get_sub_stat(stat.first);
             }
@@ -120,7 +120,7 @@ void DrawStat::drawBonus(int xstat, int xval, int y, int spacey, std::string mod
         Image icon(stat_link(stat));
         drawList.push_back(xstat - icon.size().width() - int(round(FONT_SIZE/3), y - FONT_SIZE + int(round(FONT_SIZE/4)), 0, 0, icon, OverCompositeOp);
         */
-        this->drawList.push_back(DrawableText(xstat, y, display(stat)));
+        this->drawList.push_back(DrawableText(xstat, y, display_stat(stat)));
         this->drawList.push_back(DrawableText(xval, y, str_util::rm0tail(val)));
         y+=spacey;
     }
@@ -144,7 +144,7 @@ void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int sp
     y+=spacey;
     this->drawList.push_back(DrawablePointSize(FONT_SIZE));
     //draw weapon main stat
-    this->drawList.push_back(DrawableText(xstat, y, display(this->character->get_weapon().get_main_stat())));
+    this->drawList.push_back(DrawableText(xstat, y, display_stat(this->character->get_weapon().get_main_stat())));
     //draw weapon main stat value
     this->drawList.push_back(DrawableText(xval, y, str_util::rm0tail(std::to_string(round(this->character->get_weapon().get_main_stat(true))))));
     //main stat icon
@@ -158,7 +158,7 @@ void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int sp
     */
     y+=spacey;
     //draw weapon sub stat
-    this->drawList.push_back(DrawableText(xstat, y, display(this->character->get_weapon().get_sub_stat())));
+    this->drawList.push_back(DrawableText(xstat, y, display_stat(this->character->get_weapon().get_sub_stat())));
     //draw weapon sub stat value
     double d_val = this->character->get_weapon().get_sub_stat(true) *100;
     std::string s_val = "";
@@ -205,7 +205,7 @@ void DrawStat::drawArtifact(int ximg,
     Artifacts artifacts = this->character->get_artifacts();
     stat_link("atk");
     if(!calculate){calculateAll();}
-    display("atk");
+    display_stat("atk");
     for(Artifact a : artifacts.get_artifacts()){
         Image artifact("/home/ser3_decoyer/repo/GenshinCard/Image/artifact.png");
         artifact.resize(Geometry(icon_size, icon_size));
@@ -232,32 +232,36 @@ void DrawStat::drawArtifact(int ximg,
         //this->drawList.push_back(DrawableGravity(CenterGravity));
         this->drawList.push_back(DrawableText(xmainval, ymainval, val));
         ymainval+=140;
-        /*std::vector<std::pair<int, int>> *substat_pos = new std::vector<std::pair<int, int>>();
+        std::vector<std::pair<int, int>> substat_pos;
         for(int row=0; row<2; row++){
             for(int col=0; col<2; col++){
-                substat_pos->push_back(std::make_pair(col,row));
+                substat_pos.push_back(std::pair<int, int>(col, row));
             }
         }
         //------------------SUBSTATS------------------
-        auto atribute = a.get_sub_stats().begin();
-        auto pos = substat_pos->begin();
-        for(; atribute != a.get_sub_stats().end(); atribute++, pos++){
-            std::string temp = *atribute;
+        std::set<std::string> *substats = a.get_sub_stats();
+        auto atribute = substats->begin(); 
+        auto pos = substat_pos.begin();
+        while(atribute != substats->end() && pos != substat_pos.end())
+        {
+            std::string temp;
+            temp = *atribute;
             int at_x = pos->first;
             int at_y = pos->second;
             Image icon("/home/ser3_decoyer/repo/GenshinCard/Image/erdemo.png");
             icon.resize(Geometry(substat_size, substat_size));
-            this->drawList.push_back(DrawableCompositeImage(xsubstat+at_x*spacesubx, ysubstat+at_y*spacesubx, 0, 0, icon, OverCompositeOp));
+            this->drawList.push_back(DrawableCompositeImage(xsubstat+at_x*spacesubx, ysubstat+at_y*spacesuby, 0, 0, icon, OverCompositeOp));
             this->drawList.push_back(DrawablePointSize(FONT_SIZE_substat));
             double subval = a.get_sub_stat(temp);
             if(temp.ends_with("_"))
             val = str_util::rm0tail(std::to_string(round(subval*1000)/10)) + "%";
             else val = str_util::rm0tail(std::to_string(round(subval)));
-
+        
             this->drawList.push_back(DrawableText(xsubval+at_x*spacesubx, ysubval+at_y*spacesuby, val));
-            
-            
+
+            atribute++, pos++;
         }
-        delete substat_pos;*/
+        ysubstat+=140;
+        ysubval+=140;
     }
 }

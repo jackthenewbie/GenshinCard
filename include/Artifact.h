@@ -16,7 +16,7 @@ class Artifact : protected Stat{
         void set_sub_stat(std::map<std::string, double> stats);
         std::string get_main_stat();
         double get_main_stat(bool);
-        std::set<std::string> get_sub_stats();
+        std::set<std::string> *get_sub_stats();
         double get_sub_stat(std::string);
         std::string get_type();
         std::string get_set();

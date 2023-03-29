@@ -60,7 +60,7 @@ void Interpreter::baseStats(){
     for(auto character = this->characters.begin(); character != this->characters.end(); character++){
         std::cout << "Calculating base stats..." << std::endl;
         auto api = (character->first).at(1);
-        std::string specialized = get_bonus(api["result"]["substat"].asString());
+        std::string specialized = bonus_from(api["result"]["substat"].asString());
         (character->second).set_specialized(specialized);
         double specialized_stat = api["stats"]["specialized"].asDouble();
         auto keys = api["stats"].getMemberNames();
@@ -70,8 +70,8 @@ void Interpreter::baseStats(){
                str_util::is_string_equal(key, "level") || 
                str_util::is_string_equal(key, "specialized"))
                continue;
-            cout<<get_bonus(key)<<" "<<api["stats"][key].asDouble()<<endl;
-            (character->second).set_stat(get_bonus(key), api["stats"][key].asDouble());
+            cout<<bonus_from(key)<<" "<<api["stats"][key].asDouble()<<endl;
+            (character->second).set_stat(bonus_from(key), api["stats"][key].asDouble());
         }
         std::vector<std::string> statdf {"critDMG_", "critRate_", "enerRech_"};
         std::vector<double> valdf {0.5, 0.05, 1};
@@ -204,7 +204,7 @@ void Interpreter::igniteArtifacts(){
                 //std::cout << "Looking for main stat..." << std::endl;
                 w->set_main_stat("atk", vl["stats"]["attack"].asDouble()); // stop here --------------------------------------
                 //set substat
-                w->set_sub_stat(get_bonus(bonus), std::stod(vl["stats"]["specialized"].asString()));
+                w->set_sub_stat(bonus_from(bonus), std::stod(vl["stats"]["specialized"].asString()));
                 character_->second.set_weapon(*w);
             }
         }
