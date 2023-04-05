@@ -14,7 +14,7 @@ class Character : protected Stat{
         Weapon weapon;
         int constellation;
         std::string specialized;
-        std::map<std::string, std::pair<int, std::string>> talents;
+        std::map<std::string, int> talents;
     public:
         Character(std::string name="", int level=0, int rarity=0, int ascension=0, int constellation=0, std::tuple <int, int, int> talents=std::make_tuple(0, 0, 0));
         virtual ~Character();

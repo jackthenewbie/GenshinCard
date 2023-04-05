@@ -220,7 +220,15 @@ void Interpreter::drawBasic(){
     for(auto it = this->characters.begin(); it != this->characters.end(); it++){
         DrawStat d(&(it->second));
         d.drawBasic(coordinate["drawBasic"]["x"].asInt(),coordinate["drawBasic"]["y"].asInt(),coordinate["drawBasic"]["space"].asInt());
-        d.drawBonus(549, 820, 562+58, 58, "character", std::vector<std::string>{"cryo_dmg_"});
+        d.drawBonus(
+            coordinate["drawBonus"]["xstat"].asInt(),
+            coordinate["drawBonus"]["xval"].asInt(),
+            coordinate["drawBonus"]["y"].asInt(),
+            coordinate["drawBonus"]["spacey"].asInt(),
+            coordinate["drawBonus"]["xicon"].asInt(),
+            coordinate["drawBonus"]["yicon"].asInt(),
+            coordinate["drawBonus"]["icon_size"].asInt(),
+            "character", std::vector<std::string>{"cryo_dmg_"});
             //470, 20, 620, 620+200, 45, 30, 100
         d.drawWeapon(
             coordinate["drawWeapon"]["ximg"].asInt(),

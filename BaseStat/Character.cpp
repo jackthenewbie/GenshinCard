@@ -22,21 +22,16 @@ std::string Character::cons_link(int cons){return root + "chars/" + this->name +
 std::string Character::talent_link(std::string talent){return root + "chars/" + this->name + "/talent_" + talent + ".png";}
 std::string Character::get_specialized(){return this->specialized;}
 void Character::set_specialized(std::string spec){this->specialized = spec;}
-void Character::set_talent_level(int _auto, int _skill, int _burst)
-{
-    talents["auto"] = std::pair<int, std::string >(_auto, this->talent_link("auto"));
-    talents["skill"] = std::pair<int, std::string >(_skill, this->talent_link("skill"));
-    talents["burst"] = std::pair<int, std::string>(_burst, this->talent_link("burst"));
-}
+void Character::set_talent_level(int _auto, int _skill, int _burst){talents["auto"] = _auto;talents["skill"] = _skill;talents["burst"] = _burst;}
 void Character::printCharacter(){
     std::cout<<"Name: "<<name<<std::endl;
     std::cout<<"Level: "<<level<<std::endl;
     std::cout<<"Rarity: "<<rarity<<std::endl;
     std::cout<<"Ascension: "<<ascension<<std::endl;
     std::cout<<"Constellation: "<<constellation<<std::endl;
-    std::cout<<"Auto: "<<talents["auto"].first<<std::endl;
-    std::cout<<"Skill: "<<talents["skill"].first<<std::endl;
-    std::cout<<"Burst: "<<talents["burst"].first<<std::endl;
+    std::cout<<"Auto: "<<talents["auto"]<<std::endl;
+    std::cout<<"Skill: "<<talents["skill"]<<std::endl;
+    std::cout<<"Burst: "<<talents["burst"]<<std::endl;
     
     std::cout<<"Stats: "<<std::endl;
     for(auto& x: stats){

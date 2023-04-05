@@ -9,6 +9,7 @@
 #include "str.h"
 #include "Character.h"
 #include "Artifacts.h"
+#include "link.h"
 using namespace Magick;
 DrawStat::DrawStat(Character* character){
     this->character = character;
@@ -51,7 +52,7 @@ void DrawStat::calculateAll(){
             try{
                 this->stats.at(stat.first) = 
                 this->character->get_stat(stat.first)*((this->character->get_stat(stat.first + "_") + totalstat_)) + totalstat;
-            }catch(Exception& e){
+            }catch(std::exception& e){
                 std::cout<<"Can't with "<<stat.first<<" error: "<< e.what()<<std::endl;
             }
         }
@@ -83,7 +84,8 @@ void DrawStat::drawBasic(int x, int y, int space){
         y+=space;
     }
 }
-void DrawStat::drawBonus(int xstat, int xval, int y, int spacey, std::string mode, std::vector<std::string> displayStat, bool skipBasic){
+void DrawStat::drawBonus(int xstat, int xval, int y, int spacey, int xicon, int yicon, int icon_size, std::string mode, std::vector<std::string> displayStat, bool skipBasic){
+    Link l;
     std::set<std::string> skipPrint{
         "hp",
         "atk",
@@ -116,13 +118,15 @@ void DrawStat::drawBonus(int xstat, int xval, int y, int spacey, std::string mod
         if(stat.ends_with("_")){
             val = str_util::rm0tail(std::to_string(round(this->stats.at(stat)*100 *10)/ 10)) + "%";
         }else val = std::to_string(round(this->stats.at(stat)));
-        /*
-        Image icon(stat_link(stat));
-        drawList.push_back(xstat - icon.size().width() - int(round(FONT_SIZE/3), y - FONT_SIZE + int(round(FONT_SIZE/4)), 0, 0, icon, OverCompositeOp);
-        */
+        
+        Image icon(l.stats(stat));
+        icon.resize(Geometry(icon_size, icon_size));
+        drawList.push_back(DrawableCompositeImage(xicon, yicon, 0, 0, icon, OverCompositeOp));
+        
         this->drawList.push_back(DrawableText(xstat, y, display_stat(stat)));
         this->drawList.push_back(DrawableText(xval, y, str_util::rm0tail(val)));
         y+=spacey;
+        yicon+=spacey;
     }
 }
 void DrawStat::iconToDrawlist(std::string icon, int x, int y){
@@ -133,6 +137,8 @@ void DrawStat::iconToDrawlist(std::string icon, int x, int y){
                              0, 0, img, OverCompositeOp));
 }
 void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int spacey, int icon_size){
+    Link l;
+    
     if(!calculate){calculateAll();}
     Image wp("/home/ser3_decoyer/repo/GenshinCard/Image/UI_EquipIcon_Bow_Amos_Awaken#63040.png");
     wp.resize(Geometry(icon_size, icon_size));
@@ -202,12 +208,14 @@ void DrawStat::drawArtifact(int ximg,
                            int spacesuby, 
                            int icon_size)
 {
+    Link icons;
     Artifacts artifacts = this->character->get_artifacts();
     stat_link("atk");
     if(!calculate){calculateAll();}
     display_stat("atk");
     for(Artifact a : artifacts.get_artifacts()){
-        Image artifact("/home/ser3_decoyer/repo/GenshinCard/Image/artifact.png");
+        std::string image_url = icons.artifact(a.get_set(), a.get_type());
+        Image artifact(image_url);
         artifact.resize(Geometry(icon_size, icon_size));
         artifact.alpha(true);
         artifact.evaluate (AlphaChannel, MultiplyEvaluateOperator, 0.7);
@@ -218,7 +226,7 @@ void DrawStat::drawArtifact(int ximg,
         this->drawList.push_back(DrawablePointSize(FONT_SIZE_name));
         this->drawList.push_back(DrawableText(xname, yname, a.get_set()));
         yname+=140;
-        Image iconmain("/home/ser3_decoyer/repo/GenshinCard/Image/erdemo.png");
+        Image iconmain(icons.stats(a.get_main_stat()));
         iconmain.resize(Geometry(mainstat_size, mainstat_size));
         this->drawList.push_back(DrawableCompositeImage(xmainstat, ymainstat, 0, 0, iconmain, OverCompositeOp));
         ymainstat+=140;
@@ -246,9 +254,10 @@ void DrawStat::drawArtifact(int ximg,
         {
             std::string temp;
             temp = *atribute;
+            std::cout<<"Current substat: "<<temp<<std::endl;
             int at_x = pos->first;
             int at_y = pos->second;
-            Image icon("/home/ser3_decoyer/repo/GenshinCard/Image/erdemo.png");
+            Image icon(icons.stats(temp));
             icon.resize(Geometry(substat_size, substat_size));
             this->drawList.push_back(DrawableCompositeImage(xsubstat+at_x*spacesubx, ysubstat+at_y*spacesuby, 0, 0, icon, OverCompositeOp));
             this->drawList.push_back(DrawablePointSize(FONT_SIZE_substat));
@@ -264,4 +273,15 @@ void DrawStat::drawArtifact(int ximg,
         ysubstat+=140;
         ysubval+=140;
     }
+}
+void DrawStat::drawTalents(int ximg,
+                           int yimg,
+                           int spacex,
+                           int spacey,
+                           int icon_size,
+                           int xframe,
+                           int yframe,
+                           int frame_size)
+{
+    
 }

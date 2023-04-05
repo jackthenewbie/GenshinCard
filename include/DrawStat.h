@@ -16,7 +16,7 @@ class DrawStat : Stat{ //of char and weapon, this class just create drawlist
         void calculateAll();
         void iconToDrawlist(std::string icon, int x, int y);
         void drawBasic(int x, int y, int space);
-        void drawBonus(int, int, int, int, std::string, std::vector<std::string> displayStat = {}, bool skipBasic = true); //from artifacts
+        void drawBonus(int xstat, int xval, int y, int spacey, int xicon, int yicon, int icon_size, std::string, std::vector<std::string> displayStat = {}, bool skipBasic = true); //from artifacts
         void drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int spacey, int icon_size=100);
         void drawArtifact(int ximg, 
                            int yimg,
@@ -38,7 +38,14 @@ class DrawStat : Stat{ //of char and weapon, this class just create drawlist
                            int spacesubx,
                            int spacesuby, 
                            int icon_size);
-        void drawTalents(int, int, int);
+        void drawTalents(int ximg,
+                           int yimg,
+                           int spacex,
+                           int spacey,
+                           int icon_size,
+                           int xframe,
+                           int yframe,
+                           int frame_size);
         void drawCons(int, int, int);
         std::vector<Drawable> get_drawList();
 
