@@ -52,7 +52,7 @@
     },
     "drawBackground":{
         "shiftFront": 220,
-        "xplash": -300,
-        "yplash": 0
+        "xsplash": -300,
+        "ysplash": 0
     }   
 }

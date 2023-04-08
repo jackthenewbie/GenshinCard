@@ -9,7 +9,7 @@
 #include "str.h"
 #include "Character.h"
 #include "Artifacts.h"
-#include "link.h"
+#include "Link.h"
 using namespace Magick;
 DrawStat::DrawStat(Character* character){
     this->character = character;
@@ -296,15 +296,26 @@ void DrawStat::drawTalents(int ximg,
 {
     
 }
-Image DrawStat::drawBackground(std::string ground_back, int xsplash, int ysplash, std::string ground_front, int shiftFront){
+Image* DrawStat::drawBackground(std::string ground_back, int xsplash, int ysplash, std::string ground_front, int shiftFront){
     Link image;
-    Image ImageGround_back(ground_back);
-    ImageGround_back.resize(Geometry(1280, 720));
+    InitializeMagick(NULL);
+    Image *ImageGround_back = new Image(ground_back);
+    ImageGround_back->resize(Geometry(1280, 720));
     Image gacha_splash(image.character(this->character->get_name()));
-    ImageGround_back.draw(DrawableCompositeImage(xsplash, ysplash, 0, 0, gacha_splash, OverCompositeOp));
+    ImageGround_back->draw(DrawableCompositeImage(xsplash, ysplash, 0, 0, gacha_splash, OverCompositeOp));
     Image ImageGround_front(ground_front);
     ImageGround_front.matteColor(Color("white"));
-    ImageGround_back.draw(DrawableCompositeImage(shiftFront, 0, 0, 0, ImageGround_front, OverCompositeOp));
+    ImageGround_back->draw(DrawableCompositeImage(shiftFront        , 0, 0, 0,ImageGround_front, OverCompositeOp));
     return ImageGround_back;
     
+}
+DrawableList* DrawStat::drawBack(int xsplash, int ysplash, std::string ground_front, int shiftFront){
+    Link image;
+    DrawableList* drawList = new DrawableList();
+    Image gacha_splash(image.character(this->character->get_name()));
+    drawList->push_back(DrawableCompositeImage(xsplash, ysplash, 0, 0, gacha_splash, OverCompositeOp));
+    Image ImageGround_front(ground_front);
+    ImageGround_front.matteColor(Color("white"));
+    drawList->push_back(DrawableCompositeImage(shiftFront, 0, 0, 0, ImageGround_front, OverCompositeOp));
+    return drawList;
 }

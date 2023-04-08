@@ -58,7 +58,9 @@ class DrawStat : Stat{ //of char and weapon, this class just create drawlist
                            int xframe,
                            int yframe,
                            int frame_size);
-        Image drawBackground(std::string ground_back, int xsplash, int ysplash, std::string ground_front, int shiftFront);
+        Image* drawBackground(std::string ground_back, int xsplash, int ysplash, std::string ground_front, int shiftFront);
+        DrawableList* drawBack(int xsplash, int ysplash, std::string ground_front, int shiftFront);
+        
         void drawCons(int, int, int);
         std::vector<Drawable> get_drawList();
 

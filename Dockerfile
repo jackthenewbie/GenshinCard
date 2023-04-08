@@ -1,7 +1,8 @@
 FROM ubuntu:GenshinCard
 ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get install -y curl
 WORKDIR /app/GenshinCard
 COPY . .
-WORKDIR /app/GenshinCard/Image
+WORKDIR /app/GenshinCard
 ENTRYPOINT ["/bin/bash"]
-CMD ["/app/GenshinCard/Image/locald.sh"]
+CMD ["locald.sh"]

@@ -6,6 +6,7 @@
 #include "Weapon.h"
 #include "DrawStat.h"
 #include "str.h" //str_util
+#include "Link.h"
 #include <iostream>
 #include <Magick++.h>
 #include <cpr/cpr.h>
@@ -274,15 +275,20 @@ void Interpreter::drawBasic(){
             coordinate["drawArtifact"]["icon_size"].asInt()
         );
         std::string element = (it->first).at(1)["result"]["element"].asString();
-        InitializeMagick("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");
+        InitializeMagick(NULL);
         Image *image = new Image();
-        *image = d.drawBackground("Image/Assets/ground_back/"+element+"_back.png", //wait until upload gacha splash
-                        coordinate["drawBackground"]["xplash"].asInt(), 
-                        coordinate["drawBackground"]["yplash"].asInt(),
-                        "Image/Assets/ground_front/"+element+"_front.png",
-                        coordinate["drawBackground"]["shiftFront"].asInt());
+        Link l;
+        //draw background
+        image->read("Image/Assets/ground_back/"+element+"_back.png"); //potentially corrupted
+        //image->resize(Geometry(1280, 720));
+        Image gacha_splash(l.character(it->second.get_name()));
+        image->draw(DrawableCompositeImage(coordinate["drawBackground"]["xsplash"].asInt(), 
+                                            coordinate["drawBackground"]["ysplash"].asInt(), 0, 0, gacha_splash, OverCompositeOp));
+        Image ImageGround_front("Image/Assets/ground_front/"+element+"_front.png");
+        image->draw(DrawableCompositeImage(coordinate["drawBackground"]["shiftFront"].asInt(), 0, 0, 0, ImageGround_front, OverCompositeOp));  
+
+        //draw stats
         image->draw(d.get_drawList());
-        //write to blob
         this->finished_images.push(image);
         image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
     }
