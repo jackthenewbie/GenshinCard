@@ -11,9 +11,9 @@
         "xname": 930,
         "yname": 36,
         "FONT_SIZE_mainstat": 20,
-        "xmainstat": 1015,
+        "xmainstat": 1020,
         "ymainstat": 52,
-        "xmainval": 1020,
+        "xmainval": 1025,
         "ymainval": 130,
         "mainstat_size": 50,
         "FONT_SIZE_substat": 20,
@@ -27,13 +27,19 @@
         "icon_size": 100
     },
     "drawWeapon":{
-        "ximg": 470,
-        "yimg": 20,
-        "xstat": 620,
-        "xval": 820,
-        "y": 45,
-        "spacey": 30,
-        "icon_size": 100
+        "ximg": 655,
+        "yimg": 60,
+        "xname": 515,
+        "yname": 40,
+        "name_size": 25,
+        "xstat": 515,
+        "ystat": 75,
+        "mainstat_size": 30,
+        "xval": 550,
+        "yval": 100,
+        "spacex": 240,
+        "spacey": 55,
+        "icon_size": 90
     },
     "drawBonus":{
         "xstat": 549,
@@ -43,5 +49,10 @@
         "xicon": 510,
         "yicon": 595,
         "icon_size": 35
+    },
+    "drawBackground":{
+        "shiftFront": 220,
+        "xplash": -300,
+        "yplash": 0
     }   
 }

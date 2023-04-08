@@ -23,6 +23,7 @@ class Character : protected Stat{
         std::string cons_link(int);
         std::string talent_link(std::string); //talent icon
         std::string get_specialized();
+        std::string get_name(){return this->name;};
         void set_specialized(std::string);
         void set_stat(std::string, double);
         double get_stat(std::string);

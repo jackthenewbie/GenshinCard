@@ -7,6 +7,7 @@
 #include "DrawStat.h"
 #include "str.h" //str_util
 #include <iostream>
+#include <Magick++.h>
 #include <cpr/cpr.h>
 #include <jsoncpp/json/json.h>
 #include <fstream>
@@ -33,6 +34,7 @@ Interpreter::Interpreter(const char *good_json)
     ifstream ifs(good_json);
     this->reader.parse(ifs, this->good_json);
 }
+//raw json only
 Interpreter::Interpreter(std::string data)
 {
     std::cout << "Interpreting..." << std::endl;
@@ -40,6 +42,11 @@ Interpreter::Interpreter(std::string data)
 }
 Interpreter::~Interpreter()
 {
+    while(!this->finished_images.empty()){
+        delete this->finished_images.front();
+        this->finished_images.pop();
+
+    }
     std::cout << "Destroyed" << std::endl;
 }
 Value Interpreter::Good_json(){return this->good_json;}
@@ -104,7 +111,7 @@ void Interpreter::igniteChars(std::set<std::string> names){
         this->target_json = this->api("characters", *it, 1);
         for(Json::Value i : this->good_json["characters"]){
             if(str_util::is_string_equal(i["key"].asString(), this->target_json["filename"].asString())){
-                std::cout << "Scraping from data..." << std::endl;
+                std::cout << "Scraping from api..." << std::endl;
                 //this->getPlainStat(*it, i["level"].asInt(), i["ascension"].asInt(), true);
                 //calculate sign
                 std::string sign = as2sign(i["ascension"].asInt(), i["level"].asInt());
@@ -120,8 +127,8 @@ void Interpreter::igniteChars(std::set<std::string> names){
                 std::tuple <int, int, int> talents = std::make_tuple(i["talent"]["auto"].asInt(), i["talent"]["skill"].asInt(), i["talent"]["burst"].asInt());
                 Character *c = new Character(fileName, level, rarity, ascension, constellation, talents);
                 std::vector<Value> temp;
-                temp.push_back(i);
-                temp.push_back(target_json);
+                temp.push_back(i); //a part of GOOD json (character section)
+                temp.push_back(target_json); //check Interpreter::api function and ganyuApi.json for example
                 this->characters.insert(std::pair<std::vector<Value>,Character>(temp,*c));
 
             }
@@ -229,13 +236,18 @@ void Interpreter::drawBasic(){
             coordinate["drawBonus"]["yicon"].asInt(),
             coordinate["drawBonus"]["icon_size"].asInt(),
             "character", std::vector<std::string>{"cryo_dmg_"});
-            //470, 20, 620, 620+200, 45, 30, 100
         d.drawWeapon(
             coordinate["drawWeapon"]["ximg"].asInt(),
             coordinate["drawWeapon"]["yimg"].asInt(),
+            coordinate["drawWeapon"]["xname"].asInt(),
+            coordinate["drawWeapon"]["yname"].asInt(),
+            coordinate["drawWeapon"]["name_size"].asInt(),
             coordinate["drawWeapon"]["xstat"].asInt(),
+            coordinate["drawWeapon"]["ystat"].asInt(),
+            coordinate["drawWeapon"]["mainstat_size"].asInt(),
             coordinate["drawWeapon"]["xval"].asInt(),
-            coordinate["drawWeapon"]["y"].asInt(),
+            coordinate["drawWeapon"]["yval"].asInt(),
+            coordinate["drawWeapon"]["spacex"].asInt(),
             coordinate["drawWeapon"]["spacey"].asInt(),
             coordinate["drawWeapon"]["icon_size"].asInt()
         );
@@ -261,10 +273,17 @@ void Interpreter::drawBasic(){
             coordinate["drawArtifact"]["spacesuby"].asInt(),
             coordinate["drawArtifact"]["icon_size"].asInt()
         );
+        std::string element = (it->first).at(1)["result"]["element"].asString();
         InitializeMagick("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");
-        Image image;
-        image.read("/home/ser3_decoyer/repo/GenshinCard/Image/TOP.png");
-        image.draw(d.get_drawList());
-        image.write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
+        Image *image = new Image();
+        *image = d.drawBackground("Image/Assets/ground_back/"+element+"_back.png", //wait until upload gacha splash
+                        coordinate["drawBackground"]["xplash"].asInt(), 
+                        coordinate["drawBackground"]["yplash"].asInt(),
+                        "Image/Assets/ground_front/"+element+"_front.png",
+                        coordinate["drawBackground"]["shiftFront"].asInt());
+        image->draw(d.get_drawList());
+        //write to blob
+        this->finished_images.push(image);
+        image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
     }
 }

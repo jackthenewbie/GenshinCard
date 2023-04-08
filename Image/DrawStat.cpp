@@ -136,56 +136,67 @@ void DrawStat::iconToDrawlist(std::string icon, int x, int y){
                              y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
                              0, 0, img, OverCompositeOp));
 }
-void DrawStat::drawWeapon(int ximg, int yimg, int xstat, int xval, int y, int spacey, int icon_size){
+void DrawStat::drawWeapon(int ximg, 
+                          int yimg,
+                          int xname,
+                          int yname,
+                          int name_size, 
+                          int xstat, 
+                          int ystat,
+                          int mainstat_size,
+                          int xval, 
+                          int yval,
+                          int spacex, 
+                          int spacey, 
+                          int icon_size){
     Link l;
-    
-    if(!calculate){calculateAll();}
-    Image wp("/home/ser3_decoyer/repo/GenshinCard/Image/UI_EquipIcon_Bow_Amos_Awaken#63040.png");
-    wp.resize(Geometry(icon_size, icon_size));
-    this->drawList.push_back(DrawableFont(FONT));
-    this->drawList.push_back(DrawableCompositeImage(ximg, yimg, 0, 0, wp, OverCompositeOp));
-    //draw weapon name
-    this->drawList.push_back(DrawablePointSize(FONT_SIZE + 3));
-    this->drawList.push_back(DrawableText(xstat, y, this->character->get_weapon().get_name()));
-    y+=spacey;
-    this->drawList.push_back(DrawablePointSize(FONT_SIZE));
-    //draw weapon main stat
-    this->drawList.push_back(DrawableText(xstat, y, display_stat(this->character->get_weapon().get_main_stat())));
-    //draw weapon main stat value
-    this->drawList.push_back(DrawableText(xval, y, str_util::rm0tail(std::to_string(round(this->character->get_weapon().get_main_stat(true))))));
-    //main stat icon
-    //iconToDrawlist(stat_link(this->character->get_weapon().get_main_stat()), xstat, y);
-    /*
-    Image icon(stat_link(this->character->get_weapon().get_main_stat()));
-    icon.resize(Geometry(FONT_SIZE, FONT_SIZE));
-    drawList.push_back(xstat - icon.size().width() - int(round(FONT_SIZE/3), //x cordinate
-                        y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
-                        0, 0, icon, OverCompositeOp);
-    */
-    y+=spacey;
-    //draw weapon sub stat
-    this->drawList.push_back(DrawableText(xstat, y, display_stat(this->character->get_weapon().get_sub_stat())));
-    //draw weapon sub stat value
+    std::vector<std::pair<int, int>> substat_pos;
+        for(int row=0; row<2; row++){
+            for(int col=0; col<2; col++){
+                substat_pos.push_back(std::pair<int, int>(col, row));
+            }
+        }
+    std::vector<std::string> display;
+    //draw mainstat value
+    display.push_back(str_util::rm0tail(std::to_string(round(this->character->get_weapon().get_main_stat(true)))));
+    //draw cons
+    std::string cons = "R"+std::to_string(this->character->get_weapon().get_refinement());
+    display.push_back(cons);
+    //draw substat value
     double d_val = this->character->get_weapon().get_sub_stat(true) *100;
     std::string s_val = "";
     if(this->character->get_weapon().get_sub_stat().ends_with("_"))
         s_val = str_util::rm0tail(std::to_string(round(d_val*10)/10)) + "%";
     else s_val = str_util::rm0tail(std::to_string(round(d_val))) + "%";
-    this->drawList.push_back(DrawableText(xval, y, s_val));
-    //sub stat icon
-    //iconToDrawlist(stat_link(this->character->get_weapon().get_sub_stat()), xstat, y);
-    /*
-    Image icon(stat_link(this->character->get_weapon().get_sub_stat()));
-    icon.resize(Geometry(FONT_SIZE, FONT_SIZE));
-    drawList.push_back(xstat - icon.size().width() - int(round(FONT_SIZE/3), //x cordinate
-                        y - FONT_SIZE + int(round(FONT_SIZE/4)), //y cordinate
-                        0, 0, icon, OverCompositeOp);
-    */
-    y+=spacey;
+    display.push_back(s_val);
     //draw weapon level and refinement
-    std::string cons = "R"+std::to_string(this->character->get_weapon().get_refinement());
     std::string lv = "Lv. " +std::to_string(this->character->get_weapon().get_level()) + "/90";
-    this->drawList.push_back(DrawableText(xstat, y, cons + "  " + lv));
+    display.push_back(lv);
+
+    if(!calculate){calculateAll();}
+    Image wp(l.weapon(this->character->get_weapon().get_name()));
+    wp.resize(Geometry(icon_size, icon_size));
+    this->drawList.push_back(DrawableFont(FONT));
+    this->drawList.push_back(DrawableCompositeImage(ximg, yimg, 0, 0, wp, OverCompositeOp));
+    //draw weapon namethis->character->get_weapon().get_mainstat()
+    this->drawList.push_back(DrawablePointSize(name_size));
+    this->drawList.push_back(DrawableText(xname, yname, this->character->get_weapon().get_name()));
+    
+    //draw mainstat icon
+    Image mstat(l.stats(this->character->get_weapon().get_main_stat()));
+    mstat.resize(Geometry(mainstat_size, mainstat_size));
+    this->drawList.push_back(DrawableCompositeImage(xstat, ystat, 0, 0, mstat, OverCompositeOp));
+    //draw substat icon
+    Image sstat(l.stats(this->character->get_weapon().get_sub_stat()));
+    sstat.resize(Geometry(mainstat_size, mainstat_size));
+    this->drawList.push_back(DrawableCompositeImage(xstat, ystat+spacey, 0, 0, sstat, OverCompositeOp));
+    
+    this->drawList.push_back(DrawablePointSize(FONT_SIZE));
+    for(int i=0; i<display.size(); i++){
+        this->drawList.push_back(DrawableText(xval + substat_pos.at(i).first*spacex, 
+                                              yval + substat_pos.at(i).second*spacey, 
+                                              display.at(i)));
+    }
 }
 void DrawStat::drawArtifact(int ximg, 
                            int yimg,
@@ -283,5 +294,17 @@ void DrawStat::drawTalents(int ximg,
                            int yframe,
                            int frame_size)
 {
+    
+}
+Image DrawStat::drawBackground(std::string ground_back, int xsplash, int ysplash, std::string ground_front, int shiftFront){
+    Link image;
+    Image ImageGround_back(ground_back);
+    ImageGround_back.resize(Geometry(1280, 720));
+    Image gacha_splash(image.character(this->character->get_name()));
+    ImageGround_back.draw(DrawableCompositeImage(xsplash, ysplash, 0, 0, gacha_splash, OverCompositeOp));
+    Image ImageGround_front(ground_front);
+    ImageGround_front.matteColor(Color("white"));
+    ImageGround_back.draw(DrawableCompositeImage(shiftFront, 0, 0, 0, ImageGround_front, OverCompositeOp));
+    return ImageGround_back;
     
 }

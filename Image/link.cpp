@@ -20,10 +20,11 @@ void Link::raw_link(std::string folder, std::string name, Value* v){
     Reader reader;
     Value value;
     std::string url;
-    if(folder=="characters") url = "https://genshin-db-api.vercel.app/api/stats?folder="+folder+"&query="+name+"&dumpResult=true";
+    if(folder=="characters") url = "https://genshin-db-api.vercel.app/api/characters?&query="+name;
     else if(folder == "artifacts") url = "https://genshin-db-api.vercel.app/api/artifacts?query="+name;
     else if(folder == "talents") url = "https://genshin-db-api.vercel.app/api/talents?query=" + name;
     else if(folder == "cons") url = "https://genshin-db-api.vercel.app/api/constellations?query=" + name;
+    else if(folder == "weapons") url = "https://genshin-db-api.vercel.app/api/weapons?query=" + name;
     cpr::Response r = cpr::Get(cpr::Url{url});
     if(r.status_code == 200 && r.text.length() > 20){
         reader.parse(r.text, *v);
@@ -48,8 +49,8 @@ std::string Link::dl(std::string folder, std::string query, std::string imageKey
     std::string file_name, dl_url;
     if(v != nullptr){
         if(folder == "characters")
-            file_name = (*v)["result"]["images"][imageKey].asString();
-        else if(folder == "talents" || folder == "artifacts")
+            file_name = (*v)["images"][imageKey].asString();
+        else if(folder == "talents" || folder == "artifacts" || folder == "weapons")
             file_name = (*v)["images"][imageKey].asString();
         else if(folder == "cons"){
             file_name = this->get_image_from_link((*v)["images"][imageKey].asString());
@@ -82,4 +83,7 @@ std::string Link::talents(std::string character_name, std::string talent_type){
 }
 std::string Link::cons(std::string character_name, std::string cons){
     return this->dl("characters", character_name, cons, "/upload/cons");
+}
+std::string Link::weapon(std::string weapon_name){
+    return this->dl("weapons", weapon_name, "nameawakenicon", "/upload/weapons");
 }

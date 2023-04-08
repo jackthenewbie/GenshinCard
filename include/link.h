@@ -26,7 +26,7 @@ class Link{
             return this->dl_url + "/file/genshincard/ganyu.jng";
         }
         //type is circlet, flower, feather, sands, goblet
-        std::string artifact(std::string artifact_name, std::string type);
+        std::string artifact(std::string artifact_name, std::string type); //splash gacha image
         std::string character(std::string character_name);
         //talent_type is either auto, skill, burst
         std::string talents(std::string character_name, std::string talent_type);
@@ -35,5 +35,6 @@ class Link{
         std::string stats(std::string stat_name){ //change this to local
             return "Image/Assets/" + stat_name + ".png";
         }
+        std::string weapon(std::string weapon_name);
 };
 #endif
