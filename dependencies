@@ -1,3 +1,4 @@
-libssl-dev libcurl4-openssl-dev cmake debmake devscripts debhelper libssl-dev
+python3.10 python3-pip git-all build-essential pkg-config
+libssl-dev libcurl4-openssl-dev cmake debmake devscripts debhelper libssl-dev curl
 libcurl4-openssl-dev libjsoncpp-dev libpng-dev libjpeg-dev libtiff-dev --no-install-recommends
 libboost-all-dev libfreetype6-dev fonts-freefont-otf gsfonts wget libxml2-dev libxml2-utils

@@ -1,8 +1,7 @@
 FROM ubuntu:GenshinCard
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get install -y curl
 WORKDIR /app/GenshinCard
 COPY . .
-WORKDIR /app/GenshinCard
+RUN pip3 install pillow
 ENTRYPOINT ["/bin/bash"]
 CMD ["locald.sh"]

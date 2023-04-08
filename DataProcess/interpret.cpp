@@ -290,6 +290,6 @@ void Interpreter::drawBasic(){
         //draw stats
         image->draw(d.get_drawList());
         this->finished_images.push(image);
-        image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
+        //image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
     }
 }
