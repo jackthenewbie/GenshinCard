@@ -11,5 +11,4 @@ g++ -g -shared -fPIC -std=c++2b `Magick++-config --cxxflags --cppflags` \
 -Wno-deprecated-declarations \
 -DBOOST_ALLOW_DEPRECATED_HEADERS
 ldconfig
-echo "Build complete. Copying assets to $GENSHINCARD_PY_PATH"
-sleep 1d
+echo "Build complete."
