@@ -7,6 +7,7 @@
 #include "DrawStat.h"
 #include "str.h" //str_util
 #include "Link.h"
+#include <math.h>
 #include <iostream>
 #include <Magick++.h>
 #include <cpr/cpr.h>
