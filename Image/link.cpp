@@ -67,10 +67,8 @@ std::string Link::dl(std::string folder, std::string query, std::string imageKey
         //swap folder name to dest folder name
         //change dl_url to local to use local assets (keep file_name) + return dl_url instead of return this->check(dl_url); m
         //dl_url = this->dl_url + "/file/genshincard" + image_folder + "/" + file_name + ".png";
-        dl_url = "assets_local/upload/" + image_folder + "/" + file_name + ".png";
-        if(!exists(dl_url)){
-            return dl_url;
-        }else return "assets_local/unknown.png";
+        dl_url = "assets_local" + image_folder + "/" + file_name + ".png";
+        return dl_url;
     }
     
     else{

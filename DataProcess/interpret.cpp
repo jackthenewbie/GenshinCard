@@ -282,6 +282,10 @@ void Interpreter::drawBasic(){
         image->read("Image/Assets/ground_back/"+element+"_back.png"); //potentially corrupted
         //image->resize(Geometry(1280, 720));
         Image gacha_splash(l.character(it->second.get_name()));
+        if(gacha_splash.size().height() > image->size().height()){ //resize if too big
+            double ratio = image->size().height()/gacha_splash.size().height();
+            gacha_splash.resize(Geometry(gacha_splash.size().width()*ratio, gacha_splash.size().height()*ratio));
+        }
         image->draw(DrawableCompositeImage(coordinate["drawBackground"]["xsplash"].asInt(), 
                                             coordinate["drawBackground"]["ysplash"].asInt(), 0, 0, gacha_splash, OverCompositeOp));
         Image ImageGround_front("Image/Assets/ground_front/"+element+"_front.png");
@@ -290,6 +294,6 @@ void Interpreter::drawBasic(){
         //draw stats
         image->draw(d.get_drawList());
         this->finished_images.push(image);
-        //image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
+        image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
     }
 }
