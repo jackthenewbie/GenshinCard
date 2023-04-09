@@ -1,12 +1,15 @@
 import os
 import glob
 import shutil
-GENSHINCARD_PY_PATH = os.environ.get("GENSHINCARD_PY_PATH")
-dest_assets = os.path.join(GENSHINCARD_PY_PATH, "Image/Assets")
+GENSHINCARD_MODULE = os.environ.get("GENSHINCARD_MODULE")
+dest_assets = os.path.join(GENSHINCARD_MODULE, "Image/Assets")
 os.makedirs(dest_assets, exist_ok=True)
 #path of current python script
 GENSHINCARD=os.path.dirname(os.path.realpath(__file__))
 assets = os.path.join(GENSHINCARD, "Image/Assets")
+
+#copy input.json to GENSHINCARD_MODULE
+shutil.copy2(os.path.join(GENSHINCARD, "input.json"), GENSHINCARD_MODULE)
 
 # Get all files and folders from source directory
 files = glob.glob(os.path.join(assets, "**"), recursive=True)
