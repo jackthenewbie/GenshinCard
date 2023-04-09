@@ -163,11 +163,11 @@ void DrawStat::drawWeapon(int ximg,
     std::string cons = "R"+std::to_string(this->character->get_weapon().get_refinement());
     display.push_back(cons);
     //draw substat value
-    double d_val = this->character->get_weapon().get_sub_stat(true) *100;
+    double d_val = this->character->get_weapon().get_sub_stat(true);
     std::string s_val = "";
     if(this->character->get_weapon().get_sub_stat().ends_with("_"))
-        s_val = str_util::rm0tail(std::to_string(round(d_val*10)/10)) + "%";
-    else s_val = str_util::rm0tail(std::to_string(round(d_val))) + "%";
+        s_val = str_util::rm0tail(std::to_string(round(d_val*1000)/10)) + "%";
+    else s_val = str_util::rm0tail(std::to_string(round(d_val)));
     display.push_back(s_val);
     //draw weapon level and refinement
     std::string lv = "Lv. " +std::to_string(this->character->get_weapon().get_level()) + "/90";
