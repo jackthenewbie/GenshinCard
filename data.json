@@ -681,8 +681,8 @@
         },
         {
             "key": "YaeMiko",
-            "level": 90,
-            "ascension": 6,
+            "level": 1,
+            "ascension": 0,
             "hitMode": "avgHit",
             "conditional": {},
             "bonusStats": {},

@@ -7,6 +7,7 @@
 #include "DrawStat.h"
 #include "str.h" //str_util
 #include "Link.h"
+#include <math.h>
 #include <iostream>
 #include <Magick++.h>
 #include <cpr/cpr.h>
@@ -283,11 +284,16 @@ void Interpreter::drawBasic(){
         //image->resize(Geometry(1280, 720));
         Image gacha_splash(l.character(it->second.get_name()));
         if(gacha_splash.size().height() > image->size().height()){ //resize if too big
-            double ratio = image->size().height()/gacha_splash.size().height();
+            double ratio = (double)image->size().height()/(double)gacha_splash.size().height();
+            //std::cout << "ratio: " << ratio << " expect gacha.splash height will be 720: "<<gacha_splash.size().height()*ratio<<std::endl;
             gacha_splash.resize(Geometry(gacha_splash.size().width()*ratio, gacha_splash.size().height()*ratio));
         }
-        image->draw(DrawableCompositeImage(coordinate["drawBackground"]["xsplash"].asInt(), 
-                                            coordinate["drawBackground"]["ysplash"].asInt(), 0, 0, gacha_splash, OverCompositeOp));
+        int xshift = 0;
+        int yshift = 0;
+        if(gacha_splash.size().width() > 426){xshift = (gacha_splash.size().width() - 426)/2;}
+        //if(gacha_splash.size().height() > 720){yshift = (gacha_splash.size().height() - 720)/2;}
+        image->draw(DrawableCompositeImage(-1*fabs(xshift), 
+                                            -1*fabs(yshift), 0, 0, gacha_splash, OverCompositeOp));
         Image ImageGround_front("Image/Assets/ground_front/"+element+"_front.png");
         image->draw(DrawableCompositeImage(coordinate["drawBackground"]["shiftFront"].asInt(), 0, 0, 0, ImageGround_front, OverCompositeOp));  
 
