@@ -3,6 +3,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string>
+#include <fstream>
 #include "Link.h"
 using namespace Json;
 Link::Link(){
@@ -42,6 +46,10 @@ std::string Link::get_image_from_link(std::string link){
     }
     return image_name;
 }
+inline bool exists(const std::string& name) {
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
+}
 std::string Link::dl(std::string folder, std::string query, std::string imageKey, std::string image_folder){
     Value value;
     Value *v = &value;
@@ -58,7 +66,11 @@ std::string Link::dl(std::string folder, std::string query, std::string imageKey
             
         //swap folder name to dest folder name
         //change dl_url to local to use local assets (keep file_name) + return dl_url instead of return this->check(dl_url); m
-        dl_url = this->dl_url + "/file/genshincard" + image_folder + "/" + file_name + ".png";
+        //dl_url = this->dl_url + "/file/genshincard" + image_folder + "/" + file_name + ".png";
+        dl_url = "assets_local/upload/" + image_folder + "/" + file_name + ".png";
+        if(!exists(dl_url)){
+            return dl_url;
+        }else return "assets_local/unknown.png";
     }
     
     else{
