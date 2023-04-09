@@ -5,6 +5,8 @@ import shutil
 config = dotenv_values(".env")
 GENSHINCARD_MODULE = config["GENSHINCARD_MODULE"]
 dest_assets = os.path.join(GENSHINCARD_MODULE, "Image/Assets")
+GENSHINCARD_MODULE = os.environ.get("GENSHINCARD_MODULE")
+dest_assets = os.path.join(GENSHINCARD_MODULE, "Image/Assets")
 os.makedirs(dest_assets, exist_ok=True)
 #path of current python script
 GENSHINCARD=os.path.dirname(os.path.realpath(__file__))
