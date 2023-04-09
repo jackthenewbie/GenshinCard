@@ -282,14 +282,24 @@ void Interpreter::drawBasic(){
         image->read("Image/Assets/ground_back/"+element+"_back.png"); //potentially corrupted
         //image->resize(Geometry(1280, 720));
         Image gacha_splash(l.character(it->second.get_name()));
-        image->draw(DrawableCompositeImage(coordinate["drawBackground"]["xsplash"].asInt(), 
-                                            coordinate["drawBackground"]["ysplash"].asInt(), 0, 0, gacha_splash, OverCompositeOp));
+        if(gacha_splash.size().height() > image->size().height()){ //resize if too big
+            double ratio = (double)image->size().height()/(double)gacha_splash.size().height();
+            //std::cout << "ratio: " << ratio << " expect gacha.splash height will be 720: "<<gacha_splash.size().height()*ratio<<std::endl;
+            gacha_splash.resize(Geometry(gacha_splash.size().width()*ratio, gacha_splash.size().height()*ratio));
+        }
+        int xshift = 0;
+        int yshift = 0;
+        if(gacha_splash.size().width() > 426){xshift = (gacha_splash.size().width() - 426)/2;}
+        //if(gacha_splash.size().height() > 720){yshift = (gacha_splash.size().height() - 720)/2;}
+        image->draw(DrawableCompositeImage(-1*fabs(xshift), 
+                                            -1*fabs(yshift), 0, 0, gacha_splash, OverCompositeOp));
         Image ImageGround_front("Image/Assets/ground_front/"+element+"_front.png");
         image->draw(DrawableCompositeImage(coordinate["drawBackground"]["shiftFront"].asInt(), 0, 0, 0, ImageGround_front, OverCompositeOp));  
 
         //draw stats
         image->draw(d.get_drawList());
         this->finished_images.push(image);
-        //image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
+        try{image->write("demo_image_doesnt_matter_if_it_save_or_not.png");}
+        catch(const std::exception& e){std::cerr << e.what() << '\n';}
     }
 }
