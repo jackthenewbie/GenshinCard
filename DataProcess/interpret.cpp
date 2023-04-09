@@ -294,6 +294,8 @@ void Interpreter::drawBasic(){
         //draw stats
         image->draw(d.get_drawList());
         this->finished_images.push(image);
-        image->write("/home/ser3_decoyer/repo/GenshinCard/Image/Ganyu.png");
+        try{image->write("demo_image_doesnt_matter_if_it_save_or_not.png");}
+        catch(const std::exception& e){std::cerr << e.what() << '\n';}
+        
     }
 }
